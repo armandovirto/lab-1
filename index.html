@@ -14,8 +14,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
 </head>
 
-<body class="overflow-x-hidden font-Outfit bg-[#1F1F1F] text-white">
-    <nav class="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-center z-50">
+<body class="overflow-x-hidden font-Outfit bg-white text-white">
+    <nav class="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-center z-50]">
         <!-- CORRECCIÓN 1: Botón hamburguesa móvil para abrir menú -->
         <div class="md:hidden absolute right-5 top-5 z-60">
             <button onclick="openMenu()" aria-label="Abrir menú">
@@ -27,15 +27,15 @@
         </div>
         <!-- FIN CORRECCIÓN 1 -->
         <ul
-            class="hidden md:flex items-center justify-center gap-6 lg:gap-8 rounded-full px-12 py-3 bg-white shadow-sm bg-opacity-50 font-Ovo">
-            <li><a href="#top" class="hover:text-[#4ADE80]">Inicio</a></li>
-            <li><a href="#about" class="hover:text-[#4ADE80]">Sobre mí</a></li>
-            <li><a href="#services" class="hover:text-[#4ADE80]">Servicios</a></li>
-            <li><a href="#contact" class="hover:text-[#4ADE80]">Contacto</a></li>
+            class="hidden md:flex items-center justify-center gap-6 lg:gap-8 rounded-full px-12 py-3 bg-[rgba(0,45,114,0.7)] shadow-sm bg-opacity-50 font-Ovo">
+            <li><a href="#top" class="hover:text-[#F5F5F5]">Inicio</a></li>
+            <li><a href="#about" class="hover:text-[#F5F5F5]">Sobre mí</a></li>
+            <li><a href="#services" class="hover:text-[#F5F5F5]">Servicios</a></li>
+            <li><a href="#contact" class="hover:text-[#F5F5F5]">Contacto</a></li>
         </ul>
         <!-- mobile menu -->
         <ul id="sideMenu"
-            class="flex md:hidden flex-col gap-4 py-20 px-10 fixed top-0 bottom-0 right-[-16rem] w-64 z-50 h-screen bg-stone-800 transition duration-500 font-Ovo">
+            class="flex md:hidden flex-col gap-4 py-20 px-10 fixed top-0 bottom-0 right-[-16rem] w-64 z-50 h-screen bg-gray-300 transition duration-500 font-Ovo">
             <div class="absolute right-6 top-6" onclick="closeMenu()">
                 <img src="./images/close-white.png" alt="" class="w-5 cursor-pointer">
             </div>

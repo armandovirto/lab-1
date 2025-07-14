@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Curso de IA Generativa Aplicada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./tailwind.config.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet" />
+
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css" />
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Merriweather solo para títulos y subtítulos */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Franja azul debajo del enlace activo en escritorio */
+        .nav-link {
+            font-family: 'Merriweather', serif;
+            position: relative;
+            padding-bottom: 6px;
+            font-weight: bold;
+            color: black;
+            text-decoration: none;
+        }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background-color: #5a8fd1;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            /* para que sea semi-bold */
+        }
+
+        .font-merriweather {
+            font-family: 'Merriweather', serif;
+        }
+    </style>
+
+
+</head>
+
+<body class="overflow-x-hidden font-Outfit bg-white text-black">
+    <nav id="navbar" class="fixed top-0 left-0 w-full bg-white shadow-sm z-50 transition-transform duration-300">
+        <!-- Menú escritorio -->
+        <ul class="hidden md:flex items-center gap-8 px-[12%] py-2 font-bold text-black">
+            <li><a href="#top" class="nav-link relative">Inicio</a></li>
+            <li><a href="#about" class="nav-link relative">¿Por qué inscribirte?</a></li>
+            <li><a href="#services" class="nav-link relative">Servicios</a></li>
+            <li><a href="#contact" class="nav-link relative">Contacto</a></li>
+        </ul>
+
+        <!-- Botón hamburguesa móvil -->
+        <div class="md:hidden absolute right-5 top-5 z-60">
+            <button onclick="openMenu()" aria-label="Abrir menú">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menú lateral móvil -->
+        <ul id="sideMenu"
+            class="flex md:hidden flex-col gap-4 py-20 px-10 fixed top-0 bottom-0 right-[-16rem] w-64 z-50 h-screen bg-gray-100 transition duration-500 font-Ovo">
+            <div class="absolute right-6 top-6" onclick="closeMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 cursor-pointer text-black" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <li><a href="#top" onclick="closeMenu()" class="text-black">Inicio</a></li>
+            <li><a href="#about" onclick="closeMenu()" class="text-black">¿Por qué inscribirte?</a></li>
+            <li>
+                <a href="#services" onclick="closeMenu()" class="text-black">Servicios</a>
+            </li>
+            <li>
+                <a href="#contact" onclick="closeMenu()" class="text-black">Contacto</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!--header-->
+    <div class="w-11/12 max-w-3xl text-center mx-auto h-screen flex flex-col items-center justify-center gap-4">
+        <img src="./images/armandoProfile.jpg" alt="" class="rounded-full w-40" />
+        <h1 class="text-3xl sm:text-6xl lg:text-[46px] mb-6">
+            Curso de IA Generativa Aplicada
+        </h1>
+        <h3 class="flex items-end gap-2 text-xl md:text-2xl mb-3">
+            Introducción a Large Language Models y desarrollo de Agentes
+        </h3>
+        <p class="mx-auto text-gray-500 text-[14px]">
+            Plan de estudio basado en el <span class="italic">
+                <a href="https://online.lifelonglearning.jhu.edu/jhu-certificate-program-applied-generative-ai#enc_sd=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKelpYTnphVzl1WDJSaGRHRWlPbnNpZFhSdFgzTnZkWEpqWlNJNklrOXlaMkZ1YVdNaUxDSjFkRzFmYldWa2FYVnRJam9pZDNkM0xtZHZiMmRzWlM1amIyMGlMQ0oxZEcxZlkyRnRjR0ZwWjI0aU9tNTFiR3dzSW1kc1gyeGxZV1JmY0hKdmMzQmxZM1JmYldRaU9pSTNOV0l4TVRJNE5TMWpOVFEyTFRRd056a3RZakl5TkMxbE5HWmlPVFZqTW1ZM04yRWlMQ0psYldGcGJDSTZJbUZ5YldGdVpHOHVaMjl1ZW1Gc1pYcEFZM2xpYjJ4MExtTnZiU0o5TENKamIyOXJhV1ZmWkdGMFlTSTZleUpuYkY5bWFYSnpkRjkwYjNWamFDSTZJaTlxYUhVdFkyVnlkR2xtYVdOaGRHVXRjSEp2WjNKaGJTMWhjSEJzYVdWa0xXZGxibVZ5WVhScGRtVXRZV2tpTENKbmJGOXNZWE4wWDNSdmRXTm9Jam9pTHlJc0ltZHNYM0J5WlhacGIzVnpJam9pTDJwb2RTMWpaWEowYVdacFkyRjBaUzF3Y205bmNtRnRMV0Z3Y0d4cFpXUXRaMlZ1WlhKaGRHbDJaUzFoYVNKOWZRLjNkd0dGVzVxVTUtWTktY0dITWtvbl82U0k5aDlXaVZQcmgzYWhTTTR6WWM%3D"
+                    target="_blank" rel="noopener noreferrer" class="hover:text-[#002D72] hover:underline">
+                    Certificate Program in Applied Generative AI
+                </a>
+            </span> de la Johns Hopkins University
+        </p>
+
+        <ul class="grid grid-cols-1 sm:grid-cols-3 gap-6 my-12">
+            <li
+                class="border-[0.5px] border-gray-300 rounded-xl p-6 cursor-pointer hover:bg-[#F5F5F5] hover:-translate-y-1 duration-500 hover:shadow-[4px_4px_0_#CCCCCC]">
+                <img src="./images/calendario.png" alt="" class="w-10 mt-3 max-w-full mx-auto" />
+                <h3 class="my-4 font-semibold text-black">16 semanas</h3>
+                <p class="text-gray-500 text-sm">
+                    Duración del programa
+                </p>
+            </li>
+            <li
+                class="border-[0.5px] border-gray-300 rounded-xl p-6 cursor-pointer hover:bg-[#F5F5F5] hover:-translate-y-1 duration-500 hover:shadow-[4px_4px_0_#CCCCCC]">
+                <img src="./images/internet.png" alt="" class="w-10 mt-3 max-w-full mx-auto" />
+                <h3 class="my-4 font-semibold text-black">Online</h3>
+                <p class="text-gray-500 text-sm">
+                    Modalidad de aprendizaje
+                </p>
+            </li>
+            <li
+                class="border-[0.5px] border-gray-300 rounded-xl p-6 cursor-pointer hover:bg-[#F5F5F5] hover:-translate-y-1 duration-500 hover:shadow-[4px_4px_0_#CCCCCC]">
+                <img src="./images/sincronica.png" alt="" class="w-10 mt-3 max-w-full mx-auto" />
+                <h3 class="my-4 font-semibold text-black">Una por semana</h3>
+                <p class="text-gray-500 text-sm">Sesión sincrónica</p>
+            </li>
+        </ul>
+        <div class="mt-1">
+            <a href="https://wa.link/eppo2h" target="_blank" rel="noopener noreferrer"
+                class="inline-block bg-[#002D72] text-white px-12 py-3 rounded-md text-base font-semibold hover:bg-[#5A8FD1] transition duration-300">
+                Inscríbete ahora
+            </a>
+        </div>
+    </div>
+
+    <!-- about me -->
+    <div id="about" class="w-full px-[12%] py-10 scroll-mt-20">
+        <h2 class="text-center text-5xl">¿Por qué inscribirte en este curso?</h2>
+
+        <h3 class="text-center text-xl md:text-2xl mt-16 mb-6">
+            Habilidades que aprenderás
+        </h3>
+
+        <!-- Tarjetas de habilidades -->
+        <div class="max-w-5xl mx-auto mb-12">
+            <ul class="flex flex-wrap justify-center items-center gap-1 sm:gap-2 text-sm font-montserrat">
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    PYTHON PARA INTELIGENCIA ARTIFICIAL
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    PROMPT ENGINEERING
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    CODE VIBING
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    MACHINE LEARNING
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    RESOLUCIÓN DE PROBLEMAS DE LENGUAJE NATURAL
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    CONSTRUCCIÓN DE FLUJOS DE TRABAJO DE IA GENERATIVA
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    EVALUACIÓN DE SOLUCIONES DE IA GENERATIVA
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    DESARROLLO DE AGENTES DE IA
+                </li>
+                <li
+                    class="flex items-center justify-center w-auto px-3 py-1.5 rounded-lg cursor-pointer hover:-translate-y-1 duration-500 bg-[#E8F0FC] font-bold text-[#002D72] text-xs">
+                    DESARROLLO SEGURO DE IA
+                </li>
+            </ul>
+        </div>
+
+        <!-- Acordeón -->
+        <div class="w-full max-w-2xl mx-auto mt-16 mb-12 space-y-4">
+
+            <!-- Item 1 -->
+            <div
+                class="border border-gray-200 rounded-lg shadow-md bg-white overflow-hidden transition-all duration-300">
+                <button onclick="toggleAccordion(this)"
+                    class="w-full flex justify-between items-center px-5 py-3 text-left text-black text-sm font-bold">
+                    ¿Por qué tomar un curso de IA Generativa Aplicada?
+                    <span class="icon text-gray-400 text-2xl">+</span>
+                </button>
+                <div
+                    class="accordion-content max-h-0 overflow-hidden px-5 text-sm text-gray-700 transition-all duration-500">
+                    <div class="py-3 font-normal leading-relaxed">
+                        La IA Generativa está revolucionando las soluciones empresariales al transformar industrias
+                        mediante la automatización de tareas creativas, la mejora de las experiencias de clientes y la
+                        optimización de procesos empresariales. Este curso enfatiza el aprendizaje práctico,
+                        capacitándote con las habilidades técnicas necesarias para crear e implementar soluciones de IA
+                        que afronten desafíos reales. Al completar este curso, adquirirás competencias altamente
+                        demandadas por las empresas, posicionándote como un candidato preferente en el mercado laboral.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div
+                class="border border-gray-200 rounded-lg shadow-md bg-white overflow-hidden transition-all duration-300">
+                <button onclick="toggleAccordion(this)"
+                    class="w-full flex justify-between items-center px-5 py-3 text-left text-black text-sm font-bold">
+                    ¿A quién está dirigido este curso?
+                    <span class="icon text-gray-400 text-2xl">+</span>
+                </button>
+                <div
+                    class="accordion-content max-h-0 overflow-hidden px-5 text-sm text-gray-700 transition-all duration-500">
+                    <div class="py-3 leading-relaxed">
+                        Este curso está dirigido a profesionales que buscan incorporar la Inteligencia Artificial
+                        Generativa como herramienta clave para enfrentar y resolver desafíos laborales, optimizando
+                        procesos, mejorando la toma de decisiones y generando soluciones innovadoras en sus áreas de
+                        trabajo.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div
+                class="border border-gray-200 rounded-lg shadow-md bg-white overflow-hidden transition-all duration-300">
+                <button onclick="toggleAccordion(this)"
+                    class="w-full flex justify-between items-center px-5 py-3 text-left text-black text-sm font-bold">
+                    ¿Qué aprenderás en el curso de IA Generativa Aplicada?
+                    <span class="icon text-gray-400 text-2xl">+</span>
+                </button>
+                <div
+                    class="accordion-content max-h-0 overflow-hidden px-5 text-sm text-gray-700 transition-all duration-500">
+                    <div class="py-3 leading-relaxed text-gray-800">
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Comprenderás los fundamentos teóricos de la IA Generativa y sus aplicaciones.</li>
+                            <li>Entrenarás modelos de lenguaje empleando frameworks de aprendizaje automático.</li>
+                            <li>Aplicarás buenas prácticas para minimizar riesgos en soluciones basadas en IA
+                                Generativa.</li>
+                            <li>Implementarás técnicas para diseñar, desarrollar y desplegar Agentes de IA.</li>
+                            <li>Analizarás de forma crítica el impacto de la IA Generativa en la industria y la
+                                sociedad.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Subtítulo posterior -->
+        <h3 class="text-center text-xl md:text-2xl mt-16 mb-12">
+            Tecnologías clave que pondrás en práctica
+        </h3>
+        <div class="max-w-5xl mx-auto">
+            <ul class="flex flex-wrap justify-center gap-x-8 gap-y-6">
+                <li class="flex flex-col items-center text-center">
+                    <div
+                        class="flex items-center justify-center w-14 sm:w-16 aspect-square shadow-md rounded-full cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/vscode.png" alt="" class="w-6 sm:w-8" />
+                    </div>
+                    <span class="font-bold text-sm mt-2">VS Code</span>
+                </li>
+                <li class="flex flex-col items-center text-center">
+                    <div
+                        class="flex items-center justify-center w-14 sm:w-16 aspect-square shadow-md rounded-full cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/python.jpeg" alt="" class="w-6 sm:w-8" />
+                    </div>
+                    <span class="font-bold text-sm mt-2">Python</span>
+                </li>
+                <li class="flex flex-col items-center text-center">
+                    <div
+                        class="flex items-center justify-center w-14 sm:w-16 aspect-square shadow-md rounded-full cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/colab.png" alt="" class="w-6 sm:w-8" />
+                    </div>
+                    <span class="font-bold text-sm mt-2">Google Colab</span>
+                </li>
+                <li class="flex flex-col items-center text-center">
+                    <div
+                        class="flex items-center justify-center w-14 sm:w-16 aspect-square shadow-md rounded-full cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/face.png" alt="" class="w-6 sm:w-8 rounded-full" />
+                    </div>
+                    <span class="font-bold text-sm mt-2">Transformers</span>
+                </li>
+                <li class="flex flex-col items-center text-center">
+                    <div
+                        class="flex items-center justify-center w-14 sm:w-16 aspect-square shadow-md rounded-full cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/bert.png" alt="" class="w-6 sm:w-8" />
+                    </div>
+                    <span class="font-bold text-sm mt-2">BERT</span>
+                </li>
+                <li class="flex flex-col items-center text-center">
+                    <div
+                        class="flex items-center justify-center w-14 sm:w-16 aspect-square shadow-md rounded-full cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/capcut.png" alt="" class="w-6 sm:w-8" />
+                    </div>
+                    <span class="font-bold text-sm mt-2">Vector Database</span>
+                </li>
+                <li class="flex flex-col items-center text-center">
+                    <div
+                        class="flex items-center justify-center w-14 sm:w-16 aspect-square shadow-md rounded-full cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/moddle.png" alt="" class="w-6 sm:w-8" />
+                    </div>
+                    <span class="font-bold text-sm mt-2">RAG</span>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+
+    <div class="flex w-full flex-col lg:flex-row items-center gap-10 my-10">
+        <div class="max-w-max mx-auto relative">
+            <img src="./images/armandoAboutMe.png" alt="" class="w-64 sm:w-80 rounded-3xl max-w-none" />
+        </div>
+        <div class="flex items-center justify-center px-4">
+            <div class="flex-1 max-w-5xl w-full">
+                <p class="mb-10 text-base sm:text-lg text-gray-700">
+                    Soy un diseñador instruccional con formación en Filosofía por la
+                    UNAM, apasionado por transformar el aprendizaje en una experiencia
+                    significativa y motivadora. Mi objetivo es crear soluciones que no
+                    solo capten la atención, sino que también impulsen resultados
+                    concretos para las organizaciones. Cuento con sólida experiencia en
+                    el uso de herramientas como Articulate Storyline, Rise 360 y Canva.
+                </p>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <li
+                        class="border-[0.5px] border-green-400 rounded-xl p-6 cursor-pointer hover:bg-[#F43E5C] hover:-translate-y-1 duration-500 hover:shadow-[4px_4px_0_#CCCCCC]">
+                        <img src="./images/project-icon.png" alt="" class="w-7 mt-3 max-w-full" />
+                        <h3 class="my-4 font-semibold text-green-400">Experience</h3>
+                        <p class="text-black text-sm">
+                            Cybolt's Cybersecurity Awareness Program
+                        </p>
+                    </li>
+                    <li
+                        class="border-[0.5px] border-green-400 rounded-xl p-6 cursor-pointer hover:bg-[#0A66C2] hover:-translate-y-1 duration-500 hover:shadow-[4px_4px_0_#CCCCCC]">
+                        <img src="./images/edu-icon.png" alt="" class="w-7 mt-3 max-w-full" />
+                        <h3 class="my-4 font-semibold text-green-400">Education</h3>
+                        <p class="text-black text-sm">
+                            Certificate Program in Applied Generative AI by JHU
+                        </p>
+                    </li>
+                    <li
+                        class="border-[0.5px] border-green-400 rounded-xl p-6 cursor-pointer hover:bg-[#00a3a8] hover:-translate-y-1 duration-500 hover:shadow-[4px_4px_0_#CCCCCC]">
+                        <img src="./images/foco.png" alt="" class="w-7 mt-3 max-w-full" />
+                        <h3 class="my-4 font-semibold text-green-400">ID Skills</h3>
+                        <p class="text-black text-sm">Articulate Storyline, Rise 360, Moodle LMS</p>
+                    </li>
+                    <li
+                        class="border-[0.5px] border-green-400 rounded-xl p-6 cursor-pointer hover:bg-[#6e40c9] hover:-translate-y-1 duration-500 hover:shadow-[4px_4px_0_#CCCCCC]">
+                        <img src="./images/code-icon.png" alt="" class="w-7 mt-3 max-w-full" />
+                        <h3 class="my-4 font-semibold text-green-400">Languages</h3>
+                        <p class="text-black text-sm">HTML, CSS, R, Python</p>
+                    </li>
+                </ul>
+                <h4 class="my-6 text-gray-600">Herramientas que utilizo</h4>
+                <ul class="flex flex-wrap items-center gap-3 sm:gap-5">
+                    <li
+                        class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/vscode.png" alt="" class="w-5 sm:w-7" />
+                    </li>
+                    <li
+                        class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/storyline.png" alt="" class="w-5 sm:w-7" />
+                    </li>
+                    <li
+                        class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/rise.png" alt="" class="w-5 sm:w-7" />
+                    </li>
+                    <li
+                        class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/chatgpt.jpg" alt="" class="w-5 sm:w-7" />
+                    </li>
+                    <li
+                        class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/canva.png" alt="" class="w-5 sm:w-7" />
+                    </li>
+                    <li
+                        class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/capcut.png" alt="" class="w-5 sm:w-7" />
+                    </li>
+                    <li
+                        class="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-400 rounded-lg cursor-pointer hover:-translate-y-1 duration-500">
+                        <img src="./images/moddle.png" alt="" class="w-5 sm:w-7" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!--services-->
+    <div id="services" class="w-full px-[12%] py-10 scroll-mt-20">
+        <h4 class="text-center mb-2 text-lg">Cómo puedo ayudarte</h4>
+        <h2 class="text-center text-5xl">Mis servicios</h2>
+        <p class="text-center max-w-2xl mx-auto mt-5 mb-12">
+            Combino diseño instruccional, programación y diseño visual para crear
+            soluciones de aprendizaje que conectan, funcionan y se disfrutan.
+        </p>
+        <div class="grid grid-cols-auto sm:grid-cols-2 lg:grid-cols-4 gap-6 my-10">
+            <div
+                class="group border border-green-400 rounded-lg px-8 py-12 hover:shadow-[4px_4px_0_#4ADE80] cursor-pointer hover:bg-[#FFFFFF] hover:-translate-y-1 duration-500">
+                <img src="./images/mindmeister.png" alt="" class="w-10" />
+                <h3 class="text-lg my-4 text-gray-700 group-hover:text-gray-900">
+                    Consulting
+                </h3>
+                <p class="text-sm text-gray-600 leading-5 group-hover:text-gray-700">
+                    Juntos identificamos las necesidades de tu organización y trazamos
+                    acciones estratégicas que orienten una experiencia formativa de alto
+                    impacto.
+                </p>
+            </div>
+            <div
+                class="group border border-green-400 rounded-lg px-8 py-12 hover:shadow-[4px_4px_0_#4ADE80] cursor-pointer hover:bg-[#FFFFFF] hover:-translate-y-1 duration-500">
+                <img src="./images/canva.png" alt="" class="w-10" />
+                <h3 class="text-lg my-4 text-gray-700 group-hover:text-gray-900">
+                    Storyboarding
+                </h3>
+                <p class="text-sm text-gray-600 leading-5 group-hover:text-gray-700">
+                    Tras definir los objetivos y necesidades del proyecto, desarrollaré
+                    un storyboard detallado que guíe la narrativa, interacciones y
+                    recursos del curso.
+                </p>
+            </div>
+            <div
+                class="group border border-green-400 rounded-lg px-8 py-12 hover:shadow-[4px_4px_0_#4ADE80] cursor-pointer hover:bg-[#FFFFFF] hover:-translate-y-1 duration-500">
+                <img src="./images/storyline.png" alt="" class="w-10" />
+                <h3 class="text-lg my-4 text-gray-700 group-hover:text-gray-900">
+                    e-Learning Development
+                </h3>
+                <p class="text-sm text-gray-600 leading-5 group-hover:text-gray-700">
+                    Exploraremos opciones de desarrollo y elegirás el diseño visual que
+                    mejor se adapte a tu organización, alineados con tu presupuesto y tus
+                    tiempos.
+                </p>
+            </div>
+            <div
+                class="group border border-green-400 rounded-lg px-8 py-12 hover:shadow-[4px_4px_0_#4ADE80] cursor-pointer hover:bg-[#FFFFFF] hover:-translate-y-1 duration-500">
+                <img src="./images/media-icon.png" alt="" class="w-10" />
+                <h3 class="text-lg my-4 text-gray-700 group-hover:text-gray-900">
+                    Multimedia Production
+                </h3>
+                <p class="text-sm text-gray-600 leading-5 group-hover:text-gray-700">
+                    Crearé contenido multimedia único y personalizado, integrando videos
+                    e ilustraciones para enriquecer la experiencia de aprendizaje.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--footer-->
+    <div id="contact" class="w-full px-[12%] py-10 scroll-mt-20">
+        <div class="text-center">
+            <h4 class="text-center mb-2 text-lg">Contáctame</h4>
+
+            <!-- Título con margen inferior -->
+            <h2 class="text-center text-5xl">Let's work together!</h2>
+        </div>
+
+        <ul class="mt-8 flex justify-center gap-6">
+            <li>
+                <a href="https://pk.linkedin.com/in/armandovirto" target="_blank"
+                    class="w-14 h-14 flex items-center justify-center rounded-full border-2 border-black text-black hover:border-[#0A66C2] hover:text-[#0A66C2] transition duration-300"><i
+                        class="lab la-linkedin-in text-2xl"></i></a>
+            </li>
+            <li>
+                <a href="https://github.com/armandovirto" target="_blank"
+                    class="w-14 h-14 flex items-center justify-center rounded-full border-2 border-black text-black hover:border-[#6e40c9] hover:text-[#6e40c9] transition duration-300"><i
+                        class="lab la-github text-2xl"></i></a>
+            </li>
+            <li>
+                <a href="https://wa.link/gv7ofw" target="_blank"
+                    class="w-14 h-14 flex items-center justify-center rounded-full border-2 border-black text-black hover:border-green-500 hover:text-green-500 transition duration-300"><i
+                        class="lab la-whatsapp text-2xl"></i></a>
+            </li>
+            <li>
+                <a href="mailto:armando.gonzalez@cybolt.com"
+                    class="w-14 h-14 flex items-center justify-center rounded-full border-2 border-black text-black hover:border-rose-500 hover:text-rose-500 transition duration-300"><i
+                        class="lab las la-envelope text-2xl"></i></a>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const navbar = document.getElementById("navbar");
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                navbar.style.transform = "translateY(0)";
+            } else {
+                navbar.style.transform = "translateY(-100%)";
+            }
+            marcarSeccionActiva();
+        });
+
+        function marcarSeccionActiva() {
+            const fromTop = window.scrollY + navbar.offsetHeight + 10;
+
+            navLinks.forEach((link) => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (
+                    section &&
+                    section.offsetTop <= fromTop &&
+                    section.offsetTop + section.offsetHeight > fromTop
+                ) {
+                    link.classList.add("active");
+                } else {
+                    link.classList.remove("active");
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.scrollY <= 50) {
+                navbar.style.transform = "translateY(-100%)";
+            }
+            marcarSeccionActiva();
+        });
+
+        // Funciones para abrir y cerrar menú móvil
+        function openMenu() {
+            document.getElementById("sideMenu").style.right = "0";
+        }
+
+        function closeMenu() {
+            document.getElementById("sideMenu").style.right = "-16rem";
+        }
+
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector(".icon");
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                icon.textContent = "+";
+            } else {
+                // Cierra todos los demás
+                document.querySelectorAll(".accordion-content").forEach(el => {
+                    el.style.maxHeight = null;
+                    el.previousElementSibling.querySelector(".icon").textContent = "+";
+                });
+
+                // Abre el actual
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.textContent = "−";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
